@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33027.164
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hoi4 Designer", "Hoi4 Designer\Hoi4 Designer.csproj", "{225CA30B-8BED-4154-9E96-EC7D713B75AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{225CA30B-8BED-4154-9E96-EC7D713B75AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{225CA30B-8BED-4154-9E96-EC7D713B75AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{225CA30B-8BED-4154-9E96-EC7D713B75AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{225CA30B-8BED-4154-9E96-EC7D713B75AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {605C50F6-D680-42A0-B571-CC58A976A1D6}
+	EndGlobalSection
+EndGlobal
