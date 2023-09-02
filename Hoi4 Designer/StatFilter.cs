@@ -41,22 +41,44 @@ namespace Hoi4_Designer
 
         private void maxVal_ValueChanged(object sender, EventArgs e)
         {
-            Max = (float)maxVal.Value;
+            if (FilterMax)
+            {
+                Max = (float)maxVal.Value;
+            }
         }
 
         private void minVal_ValueChanged(object sender, EventArgs e)
         {
-            Min = (float)minVal.Value;
+            if (FilterMin)
+            {
+                Min = (float)minVal.Value;
+            }
         }
 
         private void maxActive_CheckedChanged(object sender, EventArgs e)
         {
             FilterMax = maxActive.Checked;
+            if (!FilterMax)
+            {
+                Max = float.MaxValue;
+            }
+            else
+            {
+                Max = (float)maxVal.Value;
+            }
         }
 
         private void minActive_CheckedChanged(object sender, EventArgs e)
         {
             FilterMin = minActive.Checked;
+            if (!FilterMin)
+            {
+                Min = float.MinValue;
+            }
+            else
+            {
+                Min = (float)minVal.Value;
+            }
         }
     }
 }

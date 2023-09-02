@@ -58,6 +58,9 @@ namespace Hoi4_Designer
             this.MaxArmPt = new System.Windows.Forms.NumericUpDown();
             this.filterLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.maxYear = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.softAFilter = new Hoi4_Designer.StatFilter();
             this.hardAFilter = new Hoi4_Designer.StatFilter();
             this.pirFilter = new Hoi4_Designer.StatFilter();
@@ -69,8 +72,7 @@ namespace Hoi4_Designer
             this.fuelFilter = new Hoi4_Designer.StatFilter();
             this.icFilter = new Hoi4_Designer.StatFilter();
             this.hardFilter = new Hoi4_Designer.StatFilter();
-            this.maxYear = new System.Windows.Forms.NumericUpDown();
-            this.label9 = new System.Windows.Forms.Label();
+            this.showCheapest = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MaxSpdPt)).BeginInit();
@@ -145,7 +147,7 @@ namespace Hoi4_Designer
             this.specialSelect.Location = new System.Drawing.Point(83, 833);
             this.specialSelect.Name = "specialSelect";
             this.specialSelect.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.specialSelect.Size = new System.Drawing.Size(238, 160);
+            this.specialSelect.Size = new System.Drawing.Size(225, 160);
             this.specialSelect.TabIndex = 9;
             this.specialSelect.SelectedValueChanged += new System.EventHandler(this.module_SelectedValueChanged);
             // 
@@ -155,7 +157,7 @@ namespace Hoi4_Designer
             this.engineSelect.Location = new System.Drawing.Point(83, 667);
             this.engineSelect.Name = "engineSelect";
             this.engineSelect.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.engineSelect.Size = new System.Drawing.Size(238, 160);
+            this.engineSelect.Size = new System.Drawing.Size(225, 160);
             this.engineSelect.TabIndex = 9;
             this.engineSelect.SelectedValueChanged += new System.EventHandler(this.module_SelectedValueChanged);
             // 
@@ -165,7 +167,7 @@ namespace Hoi4_Designer
             this.suspensionSelect.Location = new System.Drawing.Point(83, 501);
             this.suspensionSelect.Name = "suspensionSelect";
             this.suspensionSelect.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.suspensionSelect.Size = new System.Drawing.Size(238, 160);
+            this.suspensionSelect.Size = new System.Drawing.Size(225, 160);
             this.suspensionSelect.TabIndex = 9;
             this.suspensionSelect.SelectedValueChanged += new System.EventHandler(this.module_SelectedValueChanged);
             // 
@@ -175,7 +177,7 @@ namespace Hoi4_Designer
             this.armourSelect.Location = new System.Drawing.Point(83, 335);
             this.armourSelect.Name = "armourSelect";
             this.armourSelect.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.armourSelect.Size = new System.Drawing.Size(238, 160);
+            this.armourSelect.Size = new System.Drawing.Size(225, 160);
             this.armourSelect.TabIndex = 9;
             this.armourSelect.SelectedValueChanged += new System.EventHandler(this.module_SelectedValueChanged);
             // 
@@ -185,7 +187,7 @@ namespace Hoi4_Designer
             this.gunSelect.Location = new System.Drawing.Point(83, 169);
             this.gunSelect.Name = "gunSelect";
             this.gunSelect.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.gunSelect.Size = new System.Drawing.Size(238, 160);
+            this.gunSelect.Size = new System.Drawing.Size(225, 160);
             this.gunSelect.TabIndex = 9;
             this.gunSelect.SelectedValueChanged += new System.EventHandler(this.module_SelectedValueChanged);
             // 
@@ -195,7 +197,7 @@ namespace Hoi4_Designer
             this.turretSelect.Location = new System.Drawing.Point(83, 3);
             this.turretSelect.Name = "turretSelect";
             this.turretSelect.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.turretSelect.Size = new System.Drawing.Size(238, 160);
+            this.turretSelect.Size = new System.Drawing.Size(225, 160);
             this.turretSelect.TabIndex = 9;
             this.turretSelect.SelectedValueChanged += new System.EventHandler(this.module_SelectedValueChanged);
             // 
@@ -392,6 +394,48 @@ namespace Hoi4_Designer
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1161, 609);
             this.tableLayoutPanel2.TabIndex = 107;
             // 
+            // maxYear
+            // 
+            this.maxYear.Location = new System.Drawing.Point(24, 52);
+            this.maxYear.Maximum = new decimal(new int[] {
+            1945,
+            0,
+            0,
+            0});
+            this.maxYear.Minimum = new decimal(new int[] {
+            1936,
+            0,
+            0,
+            0});
+            this.maxYear.Name = "maxYear";
+            this.maxYear.Size = new System.Drawing.Size(45, 20);
+            this.maxYear.TabIndex = 108;
+            this.maxYear.Value = new decimal(new int[] {
+            1936,
+            0,
+            0,
+            0});
+            this.maxYear.ValueChanged += new System.EventHandler(this.maxYear_ValueChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(21, 36);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(52, 13);
+            this.label9.TabIndex = 109;
+            this.label9.Text = "Max Year";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar1.Location = new System.Drawing.Point(622, 97);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(560, 23);
+            this.progressBar1.TabIndex = 110;
+            this.progressBar1.Visible = false;
+            // 
             // softAFilter
             // 
             this.softAFilter.Location = new System.Drawing.Point(3, 3);
@@ -469,43 +513,23 @@ namespace Hoi4_Designer
             this.hardFilter.Size = new System.Drawing.Size(121, 94);
             this.hardFilter.TabIndex = 105;
             // 
-            // maxYear
+            // showCheapest
             // 
-            this.maxYear.Location = new System.Drawing.Point(24, 52);
-            this.maxYear.Maximum = new decimal(new int[] {
-            1945,
-            0,
-            0,
-            0});
-            this.maxYear.Minimum = new decimal(new int[] {
-            1936,
-            0,
-            0,
-            0});
-            this.maxYear.Name = "maxYear";
-            this.maxYear.Size = new System.Drawing.Size(45, 20);
-            this.maxYear.TabIndex = 108;
-            this.maxYear.Value = new decimal(new int[] {
-            1936,
-            0,
-            0,
-            0});
-            this.maxYear.ValueChanged += new System.EventHandler(this.maxYear_ValueChanged);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(21, 36);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(52, 13);
-            this.label9.TabIndex = 109;
-            this.label9.Text = "Max Year";
+            this.showCheapest.Location = new System.Drawing.Point(988, 54);
+            this.showCheapest.Name = "showCheapest";
+            this.showCheapest.Size = new System.Drawing.Size(89, 36);
+            this.showCheapest.TabIndex = 111;
+            this.showCheapest.Text = "Display Cheapest";
+            this.showCheapest.UseVisualStyleBackColor = true;
+            this.showCheapest.Click += new System.EventHandler(this.showCheapest_Click);
             // 
             // Filter_Tanks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1194, 732);
+            this.Controls.Add(this.showCheapest);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.maxYear);
             this.Controls.Add(this.tableLayoutPanel2);
@@ -582,5 +606,7 @@ namespace Hoi4_Designer
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.NumericUpDown maxYear;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Button showCheapest;
     }
 }
