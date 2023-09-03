@@ -268,59 +268,85 @@ namespace Hoi4_Designer
                 //Parse the Chassis file to get the limits
                 StreamReader Chassis_reader = File.OpenText(file.FullName);
                 string Line;
+                string sLine;
                 int level = 0;
                 List<string> foundChassis = new List<string>();
                 List<string> foundModules = new List<string>();
                 int year = 1936;
+                bool equiptFlag = false;
+                bool modFlag = false;
                 //Go through line by line to find the information
-                while ((Line = Chassis_reader.ReadLine()) != null)
+                while ((sLine = Chassis_reader.ReadLine()) != null)
                 {
+                    Line = Remove_Tabs(sLine);
+                    Debug.WriteLine(Line);
                     if (level == 2)
                     {
                         switch (Line)
                         {
                             case string a when Line.Contains("enable_equipments"):
-                                level++;
-                                while ((Line = Remove_Tabs(Chassis_reader.ReadLine())) != "}")
-                                {
-                                    foundChassis.Add(Line);
-                                }
+                                //level++;
+                                equiptFlag = true;
+                                //while ((Line = Remove_Tabs(Chassis_reader.ReadLine())) != "}")
+                                //{
+                                //    foundChassis.Add(Line);
+                                //}
                                 break;
                             case string b when Line.Contains("enable_equipment_modules"):
-                                level++;
-                                while ((Line = Remove_Tabs(Chassis_reader.ReadLine())) != "}")
-                                {
-                                    foundModules.Add(Line);
-                                }
+                                //level++;
+                                modFlag = true;
+                                //while ((Line = Remove_Tabs(Chassis_reader.ReadLine())) != "}")
+                                //{
+                                //    foundModules.Add(Line);
+                                //}
                                 break;
                             case string c when Line.Contains("start_year"):
                                 year = int.Parse(Break_Line(Line).Stringval);
                                 break;
                         }
                     }
-                    if (Line.Contains('{'))
+                    if (Line.Contains('{') || Line.Contains("}"))
                     {
-                        level++;
-                        if (level == 2)
+                        if (Line.Contains('{'))
                         {
-                            year = 1936;
-                            foundChassis.Clear();
-                            foundModules.Clear();
+                            level++;
+                            if (level == 2)
+                            {
+                                year = 1936;
+                                foundChassis.Clear();
+                                foundModules.Clear();
+                            }
+                        }
+                        if (Line.Contains("}"))
+                        {
+                            level--;
+                            if (level == 1)
+                            {
+                                foreach (Chassis chassis in chassis.Where(c => foundChassis.Contains(c.Name)))
+                                {
+                                    chassis.Year = Math.Min(chassis.Year, year);
+                                }
+                                foreach (Module module in modules.Where(c => foundModules.Contains(c.Name)))
+                                {
+                                    module.Year = Math.Min(module.Year, year);
+                                }
+                            }
+                            if(level == 2)
+                            {
+                                equiptFlag = false;
+                                modFlag = false;
+                            }
                         }
                     }
-                    if (Line.Contains("}"))
+                    else if (level == 3)
                     {
-                        level--;
-                        if (level == 1)
+                        if (equiptFlag)
                         {
-                            foreach (Chassis chassis in chassis.Where(c => foundChassis.Contains(c.Name)))
-                            {
-                                chassis.Year = Math.Min(chassis.Year, year);
-                            }
-                            foreach (Module module in modules.Where(c => foundModules.Contains(c.Name)))
-                            {
-                                module.Year = Math.Min(module.Year, year);
-                            }
+                            foundChassis.Add(Line);
+                        }
+                        if (modFlag)
+                        {
+                            foundModules.Add(Line);
                         }
                     }
                 }
