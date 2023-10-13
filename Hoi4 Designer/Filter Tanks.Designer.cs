@@ -311,7 +311,7 @@ namespace Hoi4_Designer
             this.getTanksButton.Name = "getTanksButton";
             this.getTanksButton.Size = new System.Drawing.Size(89, 36);
             this.getTanksButton.TabIndex = 14;
-            this.getTanksButton.Text = "Get all possible Tanks";
+            this.getTanksButton.Text = "Get all Tanks";
             this.getTanksButton.UseVisualStyleBackColor = true;
             this.getTanksButton.Visible = false;
             this.getTanksButton.Click += new System.EventHandler(this.getTanksButton_Click);
