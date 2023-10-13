@@ -24,12 +24,11 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>https://raw.githubusercontent.com/ConteVincero/Hoi4-Designer/master/published/</InstallUrl>
-    <UpdateUrl>https://raw.githubusercontent.com/ConteVincero/Hoi4-Designer/master/published/</UpdateUrl>
     <ProductName>Hoi4 Designer</ProductName>
     <PublisherName>Conte_Vincero</PublisherName>
-    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>7</ApplicationRevision>
+    <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
+    <ApplicationRevision>9</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
