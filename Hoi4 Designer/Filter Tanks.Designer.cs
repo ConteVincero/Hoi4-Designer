@@ -58,6 +58,15 @@ namespace Hoi4_Designer
             this.MaxSpdPt = new System.Windows.Forms.NumericUpDown();
             this.MaxArmPt = new System.Windows.Forms.NumericUpDown();
             this.filterLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.masterLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.filterLabel = new System.Windows.Forms.Label();
+            this.maxYear = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.showCheapest = new System.Windows.Forms.Button();
+            this.getTanksLabel = new System.Windows.Forms.Label();
+            this.filterButtonLabel = new System.Windows.Forms.Label();
+            this.cheapestButtonLabel = new System.Windows.Forms.Label();
             this.softAFilter = new Hoi4_Designer.StatFilter();
             this.hardAFilter = new Hoi4_Designer.StatFilter();
             this.pirFilter = new Hoi4_Designer.StatFilter();
@@ -69,15 +78,6 @@ namespace Hoi4_Designer
             this.fuelFilter = new Hoi4_Designer.StatFilter();
             this.icFilter = new Hoi4_Designer.StatFilter();
             this.hardFilter = new Hoi4_Designer.StatFilter();
-            this.masterLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.filterLabel = new System.Windows.Forms.Label();
-            this.maxYear = new System.Windows.Forms.NumericUpDown();
-            this.label9 = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.showCheapest = new System.Windows.Forms.Button();
-            this.getTanksLabel = new System.Windows.Forms.Label();
-            this.filterButtonLabel = new System.Windows.Forms.Label();
-            this.cheapestButtonLabel = new System.Windows.Forms.Label();
             this.moduleLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MaxSpdPt)).BeginInit();
@@ -321,9 +321,9 @@ namespace Hoi4_Designer
             this.Tank_Count.AutoSize = true;
             this.Tank_Count.Location = new System.Drawing.Point(590, 60);
             this.Tank_Count.Name = "Tank_Count";
-            this.Tank_Count.Size = new System.Drawing.Size(35, 13);
+            this.Tank_Count.Size = new System.Drawing.Size(63, 13);
             this.Tank_Count.TabIndex = 15;
-            this.Tank_Count.Text = "label9";
+            this.Tank_Count.Text = "tanks found";
             this.Tank_Count.Visible = false;
             // 
             // dataGridView1
@@ -425,94 +425,6 @@ namespace Hoi4_Designer
             this.filterLayoutPanel.Size = new System.Drawing.Size(256, 573);
             this.filterLayoutPanel.TabIndex = 106;
             this.filterLayoutPanel.Visible = false;
-            // 
-            // softAFilter
-            // 
-            this.softAFilter.Location = new System.Drawing.Point(3, 81);
-            this.softAFilter.Name = "softAFilter";
-            this.softAFilter.Size = new System.Drawing.Size(121, 94);
-            this.softAFilter.TabIndex = 95;
-            this.softAFilter.Text = "label1";
-            // 
-            // hardAFilter
-            // 
-            this.hardAFilter.Location = new System.Drawing.Point(3, 181);
-            this.hardAFilter.Name = "hardAFilter";
-            this.hardAFilter.Size = new System.Drawing.Size(121, 94);
-            this.hardAFilter.TabIndex = 96;
-            this.hardAFilter.Text = "label1";
-            // 
-            // pirFilter
-            // 
-            this.pirFilter.Location = new System.Drawing.Point(3, 281);
-            this.pirFilter.Name = "pirFilter";
-            this.pirFilter.Size = new System.Drawing.Size(121, 94);
-            this.pirFilter.TabIndex = 97;
-            this.pirFilter.Text = "label1";
-            // 
-            // armFilter
-            // 
-            this.armFilter.Location = new System.Drawing.Point(3, 381);
-            this.armFilter.Name = "armFilter";
-            this.armFilter.Size = new System.Drawing.Size(121, 94);
-            this.armFilter.TabIndex = 98;
-            this.armFilter.Text = "label1";
-            // 
-            // relFilter
-            // 
-            this.relFilter.Location = new System.Drawing.Point(130, 3);
-            this.relFilter.Name = "relFilter";
-            this.relFilter.Size = new System.Drawing.Size(121, 94);
-            this.relFilter.TabIndex = 99;
-            this.relFilter.Text = "label1";
-            // 
-            // speedFilter
-            // 
-            this.speedFilter.Location = new System.Drawing.Point(130, 103);
-            this.speedFilter.Name = "speedFilter";
-            this.speedFilter.Size = new System.Drawing.Size(121, 94);
-            this.speedFilter.TabIndex = 100;
-            this.speedFilter.Text = "label1";
-            // 
-            // brkFilter
-            // 
-            this.brkFilter.Location = new System.Drawing.Point(130, 203);
-            this.brkFilter.Name = "brkFilter";
-            this.brkFilter.Size = new System.Drawing.Size(121, 94);
-            this.brkFilter.TabIndex = 101;
-            this.brkFilter.Text = "label1";
-            // 
-            // defFilter
-            // 
-            this.defFilter.Location = new System.Drawing.Point(130, 303);
-            this.defFilter.Name = "defFilter";
-            this.defFilter.Size = new System.Drawing.Size(121, 94);
-            this.defFilter.TabIndex = 102;
-            this.defFilter.Text = "label1";
-            // 
-            // fuelFilter
-            // 
-            this.fuelFilter.Location = new System.Drawing.Point(130, 403);
-            this.fuelFilter.Name = "fuelFilter";
-            this.fuelFilter.Size = new System.Drawing.Size(121, 94);
-            this.fuelFilter.TabIndex = 103;
-            this.fuelFilter.Text = "label1";
-            // 
-            // icFilter
-            // 
-            this.icFilter.Location = new System.Drawing.Point(257, 3);
-            this.icFilter.Name = "icFilter";
-            this.icFilter.Size = new System.Drawing.Size(121, 94);
-            this.icFilter.TabIndex = 104;
-            this.icFilter.Text = "label1";
-            // 
-            // hardFilter
-            // 
-            this.hardFilter.Location = new System.Drawing.Point(257, 103);
-            this.hardFilter.Name = "hardFilter";
-            this.hardFilter.Size = new System.Drawing.Size(121, 94);
-            this.hardFilter.TabIndex = 105;
-            this.hardFilter.Text = "label1";
             // 
             // masterLayoutPanel
             // 
@@ -636,6 +548,94 @@ namespace Hoi4_Designer
             this.cheapestButtonLabel.TabIndex = 114;
             this.cheapestButtonLabel.Text = "8. Click to show the cheapest 100 designs";
             this.cheapestButtonLabel.Visible = false;
+            // 
+            // softAFilter
+            // 
+            this.softAFilter.Location = new System.Drawing.Point(3, 81);
+            this.softAFilter.Name = "softAFilter";
+            this.softAFilter.Size = new System.Drawing.Size(121, 94);
+            this.softAFilter.TabIndex = 95;
+            this.softAFilter.Text = "label1";
+            // 
+            // hardAFilter
+            // 
+            this.hardAFilter.Location = new System.Drawing.Point(3, 181);
+            this.hardAFilter.Name = "hardAFilter";
+            this.hardAFilter.Size = new System.Drawing.Size(121, 94);
+            this.hardAFilter.TabIndex = 96;
+            this.hardAFilter.Text = "label1";
+            // 
+            // pirFilter
+            // 
+            this.pirFilter.Location = new System.Drawing.Point(3, 281);
+            this.pirFilter.Name = "pirFilter";
+            this.pirFilter.Size = new System.Drawing.Size(121, 94);
+            this.pirFilter.TabIndex = 97;
+            this.pirFilter.Text = "label1";
+            // 
+            // armFilter
+            // 
+            this.armFilter.Location = new System.Drawing.Point(3, 381);
+            this.armFilter.Name = "armFilter";
+            this.armFilter.Size = new System.Drawing.Size(121, 94);
+            this.armFilter.TabIndex = 98;
+            this.armFilter.Text = "label1";
+            // 
+            // relFilter
+            // 
+            this.relFilter.Location = new System.Drawing.Point(130, 3);
+            this.relFilter.Name = "relFilter";
+            this.relFilter.Size = new System.Drawing.Size(121, 94);
+            this.relFilter.TabIndex = 99;
+            this.relFilter.Text = "label1";
+            // 
+            // speedFilter
+            // 
+            this.speedFilter.Location = new System.Drawing.Point(130, 103);
+            this.speedFilter.Name = "speedFilter";
+            this.speedFilter.Size = new System.Drawing.Size(121, 94);
+            this.speedFilter.TabIndex = 100;
+            this.speedFilter.Text = "label1";
+            // 
+            // brkFilter
+            // 
+            this.brkFilter.Location = new System.Drawing.Point(130, 203);
+            this.brkFilter.Name = "brkFilter";
+            this.brkFilter.Size = new System.Drawing.Size(121, 94);
+            this.brkFilter.TabIndex = 101;
+            this.brkFilter.Text = "label1";
+            // 
+            // defFilter
+            // 
+            this.defFilter.Location = new System.Drawing.Point(130, 303);
+            this.defFilter.Name = "defFilter";
+            this.defFilter.Size = new System.Drawing.Size(121, 94);
+            this.defFilter.TabIndex = 102;
+            this.defFilter.Text = "label1";
+            // 
+            // fuelFilter
+            // 
+            this.fuelFilter.Location = new System.Drawing.Point(130, 403);
+            this.fuelFilter.Name = "fuelFilter";
+            this.fuelFilter.Size = new System.Drawing.Size(121, 94);
+            this.fuelFilter.TabIndex = 103;
+            this.fuelFilter.Text = "label1";
+            // 
+            // icFilter
+            // 
+            this.icFilter.Location = new System.Drawing.Point(257, 3);
+            this.icFilter.Name = "icFilter";
+            this.icFilter.Size = new System.Drawing.Size(121, 94);
+            this.icFilter.TabIndex = 104;
+            this.icFilter.Text = "label1";
+            // 
+            // hardFilter
+            // 
+            this.hardFilter.Location = new System.Drawing.Point(257, 103);
+            this.hardFilter.Name = "hardFilter";
+            this.hardFilter.Size = new System.Drawing.Size(121, 94);
+            this.hardFilter.TabIndex = 105;
+            this.hardFilter.Text = "label1";
             // 
             // Filter_Tanks
             // 

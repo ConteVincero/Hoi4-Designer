@@ -29,6 +29,7 @@ namespace Hoi4_Designer
             StreamReader fileReader = File.OpenText(SteamInstallPath+ "\\steamapps\\libraryfolders.vdf");
             string line;
             string curPath = "";
+            //Find the location of the game
             while ((line = fileReader.ReadLine()) != null)
             {
                 if (line.Contains("path"))
