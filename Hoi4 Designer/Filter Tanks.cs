@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 using System.Diagnostics;
+using Microsoft.Win32;
 
 namespace Hoi4_Designer
 {
@@ -26,7 +27,7 @@ namespace Hoi4_Designer
             chassisSelect.DataSource = tankData.chassis;
             chassisList.DisplayMember = "Name";
             chassisList.ValueMember = null;
-            foreach (ListBox listBox in tableLayoutPanel1.Controls.OfType<ListBox>())
+            foreach (ListBox listBox in moduleLayoutPanel.Controls.OfType<ListBox>())
             {
                 listBox.DisplayMember = "Name";
                 listBox.ValueMember = null;
@@ -35,6 +36,18 @@ namespace Hoi4_Designer
 
         private void Filter_Tanks_Load(object sender, EventArgs e)
         {
+            FileLocation.SetInstallLocation();
+            armFilter.Text = "Armour";
+            brkFilter.Text = "Breakthrough";
+            icFilter.Text = "Build Cost";
+            defFilter.Text = "Defence";
+            fuelFilter.Text = "Fuel Usage";
+            hardAFilter.Text = "Hard Attack";
+            hardFilter.Text = "Hardness";
+            pirFilter.Text = "Piercing";
+            relFilter.Text = "Reliability";
+            softAFilter.Text = "Soft Attack";
+            speedFilter.Text = "Top Speed";
         }
 
         private void addChassis_Click(object sender, EventArgs e)
@@ -43,20 +56,23 @@ namespace Hoi4_Designer
             newChassis.chassis = (Chassis)chassisSelect.SelectedItem;
             newChassis.Name = newChassis.chassis.Name;
             chassisList.Items.Add(newChassis);
+            analysisLabel.Visible = true;
+            chassisList.Visible = true;
         }
 
         private void chassisList_SelectedIndexChanged_1(object sender, EventArgs e)
         {//Fill out the module selections
+            masterLayoutPanel.Visible = true;
             ChassisSetup setup = (ChassisSetup)chassisList.SelectedItem;
             Chassis curChassis = setup.chassis;
             isUpdating = true;
-            turretSelect.DataSource = curChassis.slots[1].GetModules(tankData.modules, (curChassis.slots),(int)maxYear.Value);
-            gunSelect.DataSource = curChassis.slots[0].GetModules(tankData.modules, (curChassis.slots), (int)maxYear.Value);
-            suspensionSelect.DataSource = curChassis.slots[2].GetModules(tankData.modules, (curChassis.slots), (int)maxYear.Value);
-            armourSelect.DataSource = curChassis.slots[3].GetModules(tankData.modules, (curChassis.slots), (int)maxYear.Value);
-            engineSelect.DataSource = curChassis.slots[4].GetModules(tankData.modules, (curChassis.slots), (int)maxYear.Value);
-            specialSelect.DataSource = curChassis.slots[5].GetModules(tankData.modules, (curChassis.slots), (int)maxYear.Value);
-            foreach (ListBox listBox in tableLayoutPanel1.Controls.OfType<ListBox>())
+            turretSelect.DataSource = curChassis.slots.SingleOrDefault(s=> s.Name == "turret_type_slot").GetModules(tankData.modules, (curChassis.slots),(int)maxYear.Value);
+            gunSelect.DataSource = curChassis.slots.SingleOrDefault(s => s.Name == "main_armament_slot").GetModules(tankData.modules, (curChassis.slots), (int)maxYear.Value);
+            suspensionSelect.DataSource = curChassis.slots.SingleOrDefault(s => s.Name == "suspension_type_slot").GetModules(tankData.modules, (curChassis.slots), (int)maxYear.Value);
+            armourSelect.DataSource = curChassis.slots.SingleOrDefault(s => s.Name == "armor_type_slot").GetModules(tankData.modules, (curChassis.slots), (int)maxYear.Value);
+            engineSelect.DataSource = curChassis.slots.SingleOrDefault(s => s.Name == "engine_type_slot").GetModules(tankData.modules, (curChassis.slots), (int)maxYear.Value);
+            specialSelect.DataSource = curChassis.slots.SingleOrDefault(s => s.Name == "special_type_slot_1").GetModules(tankData.modules, (curChassis.slots), (int)maxYear.Value);
+            foreach (ListBox listBox in moduleLayoutPanel.Controls.OfType<ListBox>())
             {
                 listBox.Height = listBox.ItemHeight * Math.Min(10, listBox.Items.Count + 1);
             }
@@ -68,6 +84,10 @@ namespace Hoi4_Designer
             setListSelected(engineSelect, setup.engines);
             setListSelected(specialSelect, setup.specials);
             isUpdating = false;
+            moduleLabel.Visible = true;
+            getTanksButton.Visible = true;
+            getTanksLabel.Visible = true;
+            moduleLayoutPanel.Visible = true;
         }
         private void setListSelected(ListBox list,List<Module> setup)
         {
@@ -125,14 +145,6 @@ namespace Hoi4_Designer
                 //Create the array for the turret& gun combos
                 turretGuns[i] = TurretGuns(turretSelect.SelectedItems.Cast<Module>().ToList(), gunSelect.SelectedItems.Cast<Module>().ToList(), (Chassis)chassisSelect.SelectedItem);
                 spcThread.Join();
-                //specials[i] = new byte[specialMax[i], 4];
-                //for (int j = 0; j < specialMax[i]; j++)
-                //{
-                //    for (int k = 0; k < 4; k++)
-                //    {
-                //        specials[i][j, k] = specialCodes[j, k];
-                //    }
-                //}
                 maxTanks += (turretGuns[i].Length / 2) * suspensions[i].Length * armours[i].Length * engines[i].Length * specialMax[i];
             }
             allTanks = new Tank[maxTanks];
@@ -176,6 +188,12 @@ namespace Hoi4_Designer
             Tank_Count.Text = maxTanks.ToString() + " tanks found";
             GetStatMinMax(allTanks);
             progressBar1.Visible = false;
+            filterLayoutPanel.Visible = true;
+            filterLabel.Visible = true;
+            Filter_Tanks_Button.Visible = true;
+            filterButtonLabel.Visible = true;
+            showCheapest.Visible = true;
+            cheapestButtonLabel.Visible = true;
             this.Refresh();
         }
         byte[,] TurretGuns(List<Module> turrets, List<Module> guns, Chassis chassis)
@@ -276,7 +294,7 @@ namespace Hoi4_Designer
 
         private void Filter_Tanks_Button_Click(object sender, EventArgs e)
         {//go through the array of tanks and display only the ones that meet the criteria
-            Stopwatch stopwatch = Stopwatch.StartNew();
+            //Stopwatch stopwatch = Stopwatch.StartNew();
             filteredTanks = new List<Tank>();
             string lockName = "Lock";
             Parallel.ForEach(allTanks, tank =>
@@ -302,24 +320,27 @@ namespace Hoi4_Designer
                       }
                   }
               });
-            stopwatch.Stop();
-            MessageBox.Show("Filtering Complete " + (stopwatch.ElapsedMilliseconds/1000).ToString());
+            //stopwatch.Stop();
+            Console.Beep();
+            MessageBox.Show("Filtering Complete, " + filteredTanks.Count.ToString() + " tanks found");
             Tank_Count.Text = filteredTanks.Count.ToString() + " tanks found";
             if (filteredTanks.Count > 0)
             {
                 GetStatMinMax(filteredTanks.ToArray());
-                if (filteredTanks.Count < 100)
+                if (filteredTanks.Count < 500)
                 {
                     displayGridData(filteredTanks);
                 }
+                else { dataGridView1.Visible = false; }
             }
 
         }
         bool CheckArmour(ref Tank tank)
         {//First calculate the number of armour points required
             //source for the equation == trust me bro
-            Stat relStat = tank.getStatVals(tankData, "armor_value");
-            byte armPt = (byte)(Math.Max(Math.Ceiling(((armFilter.Min / relStat.Add_Val) - (1 + relStat.Mult_Val)) / 0.085),0));
+            Stat armStat = tank.getStatVals(tankData, "armor_value");
+            //byte armPt = (byte)(Math.Max(Math.Ceiling(((armFilter.Min / armStat.Add_Val) - (1 + armStat.Mult_Val)) / 0.085),0)); No longer works ;(
+            byte armPt = (byte)Math.Max(Math.Ceiling(((armFilter.Min / (armStat.Mult_Val+1)) - armStat.Add_Val) / 2.5), 0);
             //Now see if the number is allowed
             if (armPt<= MaxArmPt.Value)
             {
@@ -333,8 +354,9 @@ namespace Hoi4_Designer
         bool CheckSpeed(ref Tank tank)
         {//First calculate the number of speed points required
             //source for the equation == trust me bro
-            Stat relStat = tank.getStatVals(tankData, "maximum_speed");
-            byte spdPt = (byte)(Math.Max(Math.Ceiling(((speedFilter.Min / relStat.Add_Val) - (1 + relStat.Mult_Val)-(-0.05*tank.ArmPt)) / 0.1),0));
+            Stat spdStat = tank.getStatVals(tankData, "maximum_speed");
+            //byte spdPt = (byte)(Math.Max(Math.Ceiling(((speedFilter.Min / spdStat.Add_Val) - (1 + spdStat.Mult_Val)-(-0.05*tank.ArmPt)) / 0.1),0)); No longer works ;(
+            byte spdPt = (byte)Math.Max(Math.Ceiling(((speedFilter.Min / (spdStat.Mult_Val+1)) - (spdStat.Add_Val-tank.ArmPt*0.1)) / 0.1), 0);
             //Now see if the number is allowed
             if (spdPt <= MaxSpdPt.Value)
             {
@@ -345,217 +367,6 @@ namespace Hoi4_Designer
             }
             return false;
         }
-        bool UpdateArmour(ref Tank tank)
-        {
-            while (tank.Arm < armFilter.Min)
-            {
-                byte orgPt = tank.ArmPt;
-                tank.ArmPt++;
-                if (tank.ArmPt > MaxArmPt.Value)
-                {
-                    tank.ArmPt = orgPt;
-                    tank.SetStats(tankData);
-                    return false;
-                }
-                tank.SetStats(tankData);
-            }
-            return true;
-
-        }
-        bool UpdateSpeed(ref Tank tank)
-        {
-            while (tank.Speed < speedFilter.Min)
-            {
-                byte orgPt = tank.EngPt;
-                tank.EngPt++;
-                if (tank.EngPt > MaxSpdPt.Value)
-                {
-                    tank.EngPt = orgPt;
-                    tank.SetStats(tankData);
-                    return false;
-                }
-                tank.SetStats(tankData);
-            }
-            return true;
-        }
-
-
-        class Tank
-        {//This is one tank, its module IDs, and its stats
-            public byte ChassisID { get; set; }
-            public byte TurretID { get; set; }
-            public byte GunID { get; set; }
-            public byte SuspensionID { get; set; }
-            public byte EngineID { get; set; }
-            public byte ArmourID { get; set; }
-            public byte Spc1ID { get; set; }
-            public byte Spc2ID { get; set; }
-            public byte Spc3ID { get; set; }
-            public byte Spc4ID { get; set; }
-            public byte EngPt { get; set; }
-            public byte ArmPt { get; set; }
-            //Now the Stats
-            public float SoftA { get; set; }
-            public float HardA { get; set; }
-            public float Arm { get; set; }
-            public float Fuel_Consumption { get; set; }
-            public float Speed { get; set; }
-            public float Build_Cost { get; set; }
-            public float Reliability { get; set; }
-            public float Hardness { get; set; }
-            public float Piercing { get; set; }
-            public float Breakthrough { get; set; }
-            public float Defence { get; set; }
-
-            public void SetStats(Tank_Designer tankData)
-            {//calculate the stats for a specific tank
-
-                List<Stat> speedPt = new List<Stat>();
-                speedPt.Add(new Stat { Name = "maximum_speed", Mult_Val = 0.1F });
-                speedPt.Add(new Stat { Name = "reliability", Mult_Val = -0.015F });
-                speedPt.Add(new Stat { Name = "fuel_consumption", Add_Val = 0.05F });
-                speedPt.Add(new Stat { Name = "build_cost_ic", Add_Val = 0.1F });
-
-
-                List<Stat> armourPt = new List<Stat>();
-                armourPt.Add(new Stat { Name = "breakthrough", Add_Val = 1.2F });
-                armourPt.Add(new Stat { Name = "maximum_speed", Mult_Val = -0.05F });
-                armourPt.Add(new Stat { Name = "armor_value", Mult_Val = 0.085F });
-                armourPt.Add(new Stat { Name = "reliability", Mult_Val = -0.015F });
-                armourPt.Add(new Stat { Name = "build_cost_ic", Add_Val = 0.2F });
-
-                List<Stat> stats = new List<Stat>();
-                stats.AddRange(tankData.chassis[ChassisID].Stats);
-                stats.AddRange(tankData.modules[ArmourID].Stats);
-                stats.AddRange(tankData.modules[EngineID].Stats);
-                stats.AddRange(tankData.modules[GunID].Stats);
-                stats.AddRange(tankData.modules[SuspensionID].Stats);
-                stats.AddRange(tankData.modules[TurretID].Stats);
-                stats.AddRange(tankData.modules[Spc1ID].Stats);
-                stats.AddRange(tankData.modules[Spc2ID].Stats);
-                stats.AddRange(tankData.modules[Spc3ID].Stats);
-                stats.AddRange(tankData.modules[Spc4ID].Stats);
-
-                List<Stat> modStats = new List<Stat>();
-                for (int i = 0; i < Math.Max(EngPt, ArmPt); i++)
-                {
-                    if (i < EngPt) { modStats.AddRange(speedPt); }
-                    if (i < ArmPt){ modStats.AddRange(armourPt); }
-                }
-                SoftA = sumStat(stats, modStats, "soft_attack");
-                Arm = sumStat(stats, modStats, "armor_value");
-                Breakthrough = sumStat(stats, modStats, "breakthrough");
-                Build_Cost = sumStat(stats, modStats, "build_cost_ic");
-                Defence = sumStat(stats, modStats, "defense");
-                Fuel_Consumption = sumStat(stats, modStats, "fuel_consumption");
-                HardA = sumStat(stats, modStats, "hard_attack");
-                Hardness = sumStat(stats, modStats, "hardness");
-                Piercing = sumStat(stats, modStats, "ap_attack");
-                Reliability = sumStat(stats, modStats, "reliability");
-                Speed = sumStat(stats, modStats, "maximum_speed");
-            }
-            static float sumStat(List<Stat> stats, List<Stat> modStats, string name)
-            {//Returns the value of a stat with a given name
-                List<Stat> curStat = stats.FindAll(s => s.Name.Contains(name));
-                List<Stat> curModStat = modStats.FindAll(s => s.Name.Contains(name));
-                //First add all the addittives
-                float addVal = curStat.Sum(s => s.Add_Val) + curModStat.Sum(s=> s.Add_Val);
-                //Now calculate two different multipliers, one for regular stats, and another for mod stats
-                float multVal = curStat.Sum(s => s.Mult_Val);
-                float modMultVal = curModStat.Sum(s => s.Mult_Val);
-                return addVal + (addVal * multVal) + (addVal * modMultVal );
-            }
-            public Stat getStatVals(Tank_Designer tankData,string statName)
-            {
-                Stat newStat = new Stat();
-
-                List<Stat> stats = new List<Stat>();
-                stats.AddRange(tankData.chassis[ChassisID].Stats.Where(s => s.Name == statName));
-                stats.AddRange(tankData.modules[ArmourID].Stats.Where(s => s.Name == statName));
-                stats.AddRange(tankData.modules[EngineID].Stats.Where(s => s.Name == statName));
-                stats.AddRange(tankData.modules[GunID].Stats.Where(s => s.Name == statName));
-                stats.AddRange(tankData.modules[SuspensionID].Stats.Where(s => s.Name == statName));
-                stats.AddRange(tankData.modules[TurretID].Stats.Where(s => s.Name == statName));
-                stats.AddRange(tankData.modules[Spc1ID].Stats.Where(s => s.Name == statName));
-                stats.AddRange(tankData.modules[Spc2ID].Stats.Where(s => s.Name == statName));
-                stats.AddRange(tankData.modules[Spc3ID].Stats.Where(s => s.Name == statName));
-                stats.AddRange(tankData.modules[Spc4ID].Stats.Where(s => s.Name == statName));
-
-                newStat.Add_Val = stats.Sum(s => s.Add_Val);
-                newStat.Mult_Val = stats.Sum(s => s.Mult_Val);
-                return newStat;
-            }
-            public NamedTank ToNamed(Tank_Designer tankData)
-            {
-                NamedTank newTank = new NamedTank();
-                newTank.Chassis = tankData.chassis[ChassisID].Name; 
-                newTank.Turret = tankData.modules[TurretID].Name;
-                newTank.Gun = tankData.modules[GunID].Name;
-                newTank.Suspension = tankData.modules[SuspensionID].Name;
-                newTank.Engine = tankData.modules[EngineID].Name;
-                newTank.Armour = tankData.modules[ArmourID].Name;
-                newTank.Spc1 = tankData.modules[Spc1ID].Name;
-                newTank.Spc2 = tankData.modules[Spc2ID].Name;
-                newTank.Spc3 = tankData.modules[Spc3ID].Name;
-                newTank.Spc4 = tankData.modules[Spc4ID].Name;
-                newTank.ArmPt = ArmPt;
-                newTank.EngPt = EngPt;
-                newTank.SoftA = SoftA;
-                newTank.HardA = HardA;
-                newTank.Arm = Arm;
-                newTank.Fuel_Consumption=Fuel_Consumption;
-                newTank.Speed = Speed;
-                newTank.Build_Cost = Build_Cost;
-                newTank.Reliability = Reliability;
-                newTank.Hardness = Hardness;
-                newTank.Piercing = Piercing;
-                newTank.Breakthrough = Breakthrough;
-                newTank.Defence = Defence;
-
-                return newTank;
-            }
-        }
-        class NamedTank
-        {//Similar to Tank, but with names. Used for Display Only
-            public string Chassis { get; set; }
-            public string Turret { get; set; }
-            public string Gun { get; set; }
-            public string Suspension { get; set; }
-            public string Engine { get; set; }
-            public string Armour { get; set; }
-            public string Spc1 { get; set; }
-            public string Spc2 { get; set; }
-            public string Spc3 { get; set; }
-            public string Spc4 { get; set; }
-            public byte EngPt { get; set; }
-            public byte ArmPt { get; set; }
-            //Now the Stats
-            public float SoftA { get; set; }
-            public float HardA { get; set; }
-            public float Arm { get; set; }
-            public float Fuel_Consumption { get; set; }
-            public float Speed { get; set; }
-            public float Build_Cost { get; set; }
-            public float Reliability { get; set; }
-            public float Hardness { get; set; }
-            public float Piercing { get; set; }
-            public float Breakthrough { get; set; }
-            public float Defence { get; set; }
-
-        }
-
-        class ChassisSetup
-        {//Contains all the possible modules for a tank
-            public string Name { get; set; }
-            public Chassis chassis { get; set; }
-            public List<Module> turrets { get; set; }
-            public List<Module> guns { get; set; }
-            public List<Module> suspension { get; set; }
-            public List<Module> engines{ get; set; }
-            public List<Module> armours { get; set; }
-            public List<Module> specials { get; set; }
-
-        }
 
         private void module_SelectedValueChanged(object sender, EventArgs e)
         {
@@ -565,6 +376,34 @@ namespace Hoi4_Designer
         private void maxYear_ValueChanged(object sender, EventArgs e)
         {
             chassisSelect.DataSource = tankData.chassis.Where(c => c.Year < maxYear.Value+1).ToList();
+            chassisSelect.Visible = true;
+            MaxSpdPt.Value = 4;
+            MaxArmPt.Value = 4;
+            if (maxYear.Value < 1934)
+            {
+                MaxSpdPt.Value = 4;
+                MaxArmPt.Value = 4;
+            }
+            else if (maxYear.Value < 1938)
+            {
+                MaxSpdPt.Value = 9;
+                MaxArmPt.Value = 9;
+            }
+            else if (maxYear.Value < 1941)
+            {
+                MaxSpdPt.Value = 14;
+                MaxArmPt.Value = 14;
+            }
+            else if (maxYear.Value < 1944)
+            {
+                MaxSpdPt.Value = 17;
+                MaxArmPt.Value = 17;
+            }
+            else
+            {
+                MaxSpdPt.Value = 20;
+                MaxArmPt.Value = 20;
+            }
         }
 
         private void showCheapest_Click(object sender, EventArgs e)
@@ -573,7 +412,8 @@ namespace Hoi4_Designer
         }
         private void displayGridData(List<Tank> tanks)
         {
-            List<NamedTank> namedTanks = new List<NamedTank>();
+            BindingList<NamedTank> namedTanks = new BindingList<NamedTank>();
+            //List<NamedTank> namedTanks = new List<NamedTank>();
             foreach (Tank tank in tanks)
             {
                 namedTanks.Add(tank.ToNamed(tankData));
@@ -583,6 +423,12 @@ namespace Hoi4_Designer
             {
                 column.SortMode = DataGridViewColumnSortMode.Automatic;
             }
+            dataGridView1.Visible = true;
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

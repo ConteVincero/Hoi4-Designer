@@ -61,7 +61,7 @@ namespace Hoi4_Designer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to F:\Program Files (x86)\Steam\steamapps\common\Hearts of Iron IV\.
+        ///   Looks up a localized string similar to bum.
         /// </summary>
         internal static string GamePath {
             get {

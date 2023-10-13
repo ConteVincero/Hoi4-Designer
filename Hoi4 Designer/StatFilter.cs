@@ -16,6 +16,11 @@ namespace Hoi4_Designer
         public bool FilterMin;
         public float Max;
         public float Min;
+        [EditorBrowsable(EditorBrowsableState.Always)]
+        [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        [Bindable(true)]
+        public override string Text { get { return nameLabel.Text; } set { nameLabel.Text = value; } }
         public StatFilter()
         {
             InitializeComponent();
@@ -23,7 +28,6 @@ namespace Hoi4_Designer
 
         private void StatFilter_Load(object sender, EventArgs e)
         {
-            nameLabel.Text = Name;
         }
 
         public bool checkVal(float Val)
